@@ -1,2 +1,6 @@
+# TMP files
+*.tmp
+*.swp
+
 #GHDL Syntax check output
 *.cf
