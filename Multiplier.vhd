@@ -4,13 +4,13 @@
 --
 -- Create Date:    20:20:52 10/03/2017
 -- Design Name:
--- Module Name:    Multiplier - Behavioral
+-- Module Name:    Multiplier - Structural
 -- Project Name:
 -- Target Devices:
 -- Tool versions:
 -- Description:
 --
--- Dependencies:
+-- Dependencies: Full_Adder_Nbit
 --
 -- Revision:
 -- Revision 0.01 - File Created
@@ -28,8 +28,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- any Xilinx primitives in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
-
-
 
 -----------------------------------------------------------
 ----------         Example for n = 3             ----------
@@ -88,7 +86,7 @@ begin
 --Add 'n' partial products unsing 'n' '(2n-1)-bit' adders
     Add : for i in 0 to n-1 generate
 
-        Full_Adder_Suber_i : entity work.Full_Adder_Suber
+         Full_Adder_i : entity work.Full_Adder_Nbit
          generic map (N => ((2*N)-1))
          port map
          (
