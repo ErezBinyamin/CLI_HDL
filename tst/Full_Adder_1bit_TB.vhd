@@ -23,12 +23,14 @@ architecture bench of Full_Adder_1bit_tb is
        );
   end component;
 
-  signal A: STD_LOGIC;
-  signal B: STD_LOGIC;
-  signal Cin: STD_LOGIC;
-  signal Sum: STD_LOGIC;
-  signal Cout: STD_LOGIC ;
+  signal A   : STD_LOGIC := '0';
+  signal B   : STD_LOGIC := '0';
+  signal Cin : STD_LOGIC := '0';
+  signal Cout: STD_LOGIC := '0';
+  signal Sum : STD_LOGIC := '0';
 
+  signal test_vector  : STD_LOGIC_VECTOR(2 downto 0) := (others => '0');
+  constant CLK_PERIOD : TIME := 10 ns;
 begin
 
   uut: Full_Adder_1bit port map ( A    => A,
@@ -39,55 +41,22 @@ begin
 
   stimulus: process
   begin
-  
-    -- Put initialisation code here
-    A <= '0';
-    B <= '0';
-    Cin <= '0';
-    wait for 10 ns;
 
-    A <= '1';
-    B <= '0';
-    Cin <= '0';
-    wait for 10 ns;
+	  for i in 0 to 8 loop
+		  wait for CLK_PERIOD;
+		  test_vector <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, test_vector'length));
+		  A   <= test_vector(0);
+		  B   <= test_vector(1);
+		  Cin <= test_vector(2);
+		  wait for CLK_PERIOD;
+	  end loop;
 
-    A <= '0';
-    B <= '1';
-    Cin <= '0';
-    wait for 10 ns;
-
-    A <= '1';
-    B <= '1';
-    Cin <= '0';
-    wait for 10 ns;
-
-    A <= '0';
-    B <= '0';
-    Cin <= '1';
-    wait for 10 ns;
-
-    A <= '1';
-    B <= '0';
-    Cin <= '1';
-    wait for 10 ns;
-
-    A <= '0';
-    B <= '1';
-    Cin <= '1';
-    wait for 10 ns;
-
-    A <= '1';
-    B <= '1';
-    Cin <= '1';
-    wait for 10 ns;
-
-    A <= '0';
-    B <= '0';
-    Cin <= '0';
-    wait for 10 ns;
-
-    wait;
-  end process;
+ 	A   <= '0';
+	B   <= '0';
+	Cin <= '0';
+	wait for CLK_PERIOD;
+	wait;
+end process;
 
 
 end;
