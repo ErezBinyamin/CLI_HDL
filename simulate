@@ -15,12 +15,16 @@ simulate() {
 	SRC="${ADDER_1bit_SRC}"
 
 	# 1. Syntax check
-	ghdl -s --workdir=${SIM} ${SRC} || return 1
+	echo "1. SYNTAX"
+	ghdl -s --ieee=synopsys --workdir=${SIM} ${SRC} || return 1
 	# 2. Compile
-	ghdl -a --workdir=${SIM} ${SRC} || return 1
+	echo "2. COMPILE"
+	ghdl -a --ieee=synopsys --workdir=${SIM} ${SRC} || return 1
 	# 3. Generate simulation
-	ghdl -r --workdir=${SIM} ${UUT} --vcd=${GTK_FILE} || return 1
+	echo "3. RUN"
+	ghdl -r --ieee=synopsys --workdir=${SIM} ${UUT} --vcd=${GTK_FILE} || return 1
 	# 4. Run simulation
+	echo "2. SIMULATE"
 	gtkwave ${GTK_FILE}
 }
 
