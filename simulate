@@ -1,13 +1,19 @@
 #!/bin/bash
-SIM=sim
+# Uses GHDL commands to syntax check, compile, then prepare for gdkwave simulation
+# Calls gdkwave to simulate logical design
+
+SIM=out
 SRC_DIR=work
 TST_DIR=tst
 GTK_FILE=${SIM}/gtk.vcd
 UUT=Full_Adder_1bit_tb
 
 #SRC="${SRC_DIR}/* ${TST}/*"
-SRC="${SRC_DIR}/Full_Adder_1bit.vhd ${TST_DIR}/Full_Adder_1bit_TB.vhd"
+ADDER_1bit_SRC="${SRC_DIR}/Full_Adder_1bit.vhd ${TST_DIR}/Full_Adder_1bit_TB.vhd"
 simulate() {
+	# Define source code to build/simulate
+	SRC="${ADDER_1bit_SRC}"
+
 	# 1. Syntax check
 	ghdl -s --workdir=${SIM} ${SRC} || return 1
 	# 2. Compile
