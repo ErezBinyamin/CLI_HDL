@@ -52,7 +52,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- *                                  (2n-1 downto 0)     *
 -----------------------------------------------------------
 entity Multiplier is
-    generic (n : integer := 2);
+    generic (n : integer := 4);
     port
      (
           A         :   in     STD_LOGIC_VECTOR(n-1 downto 0);
@@ -67,10 +67,10 @@ architecture Structural of Multiplier is
     type vector_array is array (n downto 0) of std_logic_vector(((2*n)-2) downto 0);
 
 --Multipling each bit together to generate Partial Product array
-    signal Partial_products : vector_array := ((others => (others => '0')));
+    signal Partial_products : vector_array := (others => (others => '0'));
 
 --Adding all partial products using an accumulator and Carry_array for MSB
-    signal Accumulator      : vector_array := ((others => (others => '0')));
+    signal Accumulator      : vector_array := (others => (others => '0'));
     signal Carry_array      : STD_LOGIC_VECTOR((n-1) downto 0) := (others => '0');
 
 begin
@@ -106,4 +106,5 @@ begin
     
 --Assign final Product output MSB with last Carry bit
     Product((1*n)-1) <= Carry_array(n-1);
+
 end Structural;
