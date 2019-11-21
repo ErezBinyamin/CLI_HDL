@@ -75,6 +75,7 @@ architecture Structural of Multiplier is
 
 begin
 
+--GENERATE: Partial_products 
 --Populate 'n' partial products with AND'ed values of A,B
 --Populates i'th vector starting at the j+i'th bit (to account for leading 0's)
     Whcih_Vector : for i in 0 to n-1 generate begin
@@ -83,6 +84,7 @@ begin
         end generate Whcih_Bit;
     end generate Whcih_Vector;
 
+--GENERATE:  Accumulator, and Carry_array
 --Add 'n' partial products unsing 'n' '(2n-1)-bit' adders
     Add : for i in 0 to n-1 generate
 
@@ -105,6 +107,6 @@ begin
     end generate;
     
 --Assign final Product output MSB with last Carry bit
-    Product((1*n)-1) <= Carry_array(n-1);
+    Product(n-1) <= Carry_array(n-1);
 
 end Structural;

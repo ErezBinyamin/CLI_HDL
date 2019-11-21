@@ -22,9 +22,9 @@ architecture bench of Multiplier_tb is
        );
   end component;
 
-  signal A       : STD_LOGIC_VECTOR(N-1 downto 0) := (others => '0');
-  signal B       : STD_LOGIC_VECTOR(N-1 downto 0) := (others => '0');
-  signal Product : STD_LOGIC_VECTOR(((2*N)-1) downto 0) := (others => '0');
+  signal A       : STD_LOGIC_VECTOR(N-1 downto 0);
+  signal B       : STD_LOGIC_VECTOR(N-1 downto 0);
+  signal Product : STD_LOGIC_VECTOR(((2*N)-1) downto 0);
 
   constant CLK_PERIOD : TIME := 10 ns;
 begin
@@ -41,7 +41,7 @@ begin
 	  -- Reset
 	  A <= (others => '0');
 	  B <= (others => '0');
-	  wait for CLK_PERIOD;
+	  wait for 2*CLK_PERIOD;
 
 	  -- Multiply everything
 	  for i in 0 to 15 loop
@@ -49,7 +49,8 @@ begin
 		  	wait for CLK_PERIOD;
 			A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 		  	wait for CLK_PERIOD;
-	  	end loop;
+		--	assert (to_integer(unsigned(Product)) = i*j) report integer'image(i) & " x " & integer'image(j) & " = " & integer'image(i*j);
+		end loop;
 		B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 	  end loop;
 
@@ -57,7 +58,7 @@ begin
 	  wait for CLK_PERIOD;
 	  A <= (others => '0');
 	  B <= (others => '0');
-	  wait for CLK_PERIOD;
+	  wait for 2*CLK_PERIOD;
   	  wait;
 end process;
 

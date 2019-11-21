@@ -8,7 +8,6 @@ TST_DIR=tst
 GTK_FILE=${SIM}/gtk.vcd
 UUT=Multiplier_tb
 
-#SRC="${SRC_DIR}/* ${TST}/*"
 ADDER_1bit_SRC="${SRC_DIR}/Full_Adder_1bit.vhd ${TST_DIR}/Full_Adder_1bit_TB.vhd"
 ADDER_Nbit_SRC="${SRC_DIR}/Full_Adder_* ${TST_DIR}/Full_Adder_Nbit_TB.vhd"
 Multiplier_SRC="${SRC_DIR}/Full_Adder_* ${SRC_DIR}/Multiplier.vhd ${TST_DIR}/Multiplier_TB.vhd"
