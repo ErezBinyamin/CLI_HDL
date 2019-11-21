@@ -4,3 +4,6 @@
 
 #GHDL Syntax check output
 *.cf
+
+#GHDL generated GTKWAVE file
+*.vcd
