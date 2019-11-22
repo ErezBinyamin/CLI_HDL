@@ -18,13 +18,13 @@ architecture bench of MAC_tb is
        (
             A        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
             B        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
-            mac_out  :   out    STD_LOGIC_VECTOR((2*n) downto 0)
+            mac_out  :   out    STD_LOGIC_VECTOR(((2*n)-1) downto 0)
        );
   end component;
 
   signal A: STD_LOGIC_VECTOR(n-1 downto 0);
   signal B: STD_LOGIC_VECTOR(n-1 downto 0);
-  signal mac_out: STD_LOGIC_VECTOR((2*n) downto 0) ;
+  signal mac_out: STD_LOGIC_VECTOR(((2*n)-1) downto 0) ;
   constant CLK_PERIOD : TIME := 10 ns;
 
 begin

@@ -47,13 +47,13 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 -- *    |    \       Add         /                     * --            
 -- *    |     +-----------------+                      * --                  
 -- *    |              |                               * --            
--- *    |             Sum                      2N      * --         
+-- *    |             Sum                   2N-1      * --         
 -- *    |              |                               * --                
 -- *    |    +---------------------+                   * --               
--- *    +----|       RegMem        |           2N      * --              
+-- *    +----|       RegMem        |           2N-1      * --              
 -- *         +---------------------+                   * --            
 -- *                   |                               * --             
--- *                 MacOut                    2N      * --               
+-- *                 MacOut                    2N-1      * --               
 -----------------------------------------------------------
 
 
@@ -63,55 +63,43 @@ entity MAC is
      (
           A        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
           B        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
-          mac_out  :   out    STD_LOGIC_VECTOR((2*n) downto 0)
+          mac_out  :   out    STD_LOGIC_VECTOR(((2*n)-1) downto 0)
      );
 end MAC;
 
-architecture Behave of MAC is
+architecture Structural of MAC is
 	signal Product : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal Sum     : STD_LOGIC_VECTOR((2*n) downto 0)     := (others => '0');
+	signal RegMem  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal Sum     : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
 	signal Cout    : STD_LOGIC                            := '0';
-	signal RegMem  : STD_LOGIC_VECTOR((2*n) downto 0)     := (others => '0');
 begin
-	Product <= (SIGNED(A) * SIGNED(B));
-	Sum     <= SIGNED(Product) + SIGNED(RegMem);
-	--RegMem  <= Sum;
-	--mac_out <= RegMem;
-	mac_out <= Sum;
-end Behave;
 
--- architecture Structural of Multiplier is
--- 
--- 	Product STD_LOGIC_VECTOR(((2*n)-1) downto 0);
--- 	Sum STD_LOGIC_VECTOR((2*n) downto 0);
--- 	Cout STD_LOGIC;
--- 	RegMem STD_LOGIC_VECTOR((2*n) downto 0);
--- 
--- begin
--- 
---     Mult : entity work.Full_Adder_Nbit
---     generic map (N => n)
---     port map
---     (
---         A       =>  A,
---         B       =>  B,
---         Product =>  Product
---     );
--- 
---     Add : entity work.Full_Adder_Nbit
---     generic map (N => ((2*N)+1))
---     port map
---     (
---         A    =>    RegMem,
---         B    =>    '0' & Product,
---         Cin  =>    '0',
---         Sum  =>    Sum,
---         Cout =>    Cout
---     );
--- 
---     RegMem <= Sum;
--- 
---     mac_out <= RegMem;
--- 
--- end Structural;
--- 
+     Mult : entity work.Multiplier
+     generic map (N => n)
+     port map
+     (
+         A       =>  A,
+         B       =>  B,
+         Product =>  Product
+     );
+
+    -- Add : entity work.Full_Adder_Nbit
+    -- generic map (N => ((2*N)+1))
+    -- port map
+    -- (
+    --     A    =>    RegMem,
+    --     B    =>    Product,
+    --     Cin  =>    '0',
+    --     Sum  =>    Sum,
+    --     Cout =>    Cout
+    -- );
+
+
+    -- RegMem  <= Sum;
+    -- mac_out <= RegMem;
+
+    RegMem  <= Product;
+    mac_out <= Product;
+
+end Structural;
+
