@@ -6,6 +6,8 @@ SIM=out
 SRC_DIR=work
 TST_DIR=tst
 GTK_FILE=${SIM}/gtk.vcd
+#UUT=Full_Adder_Nbit_tb
+#UUT=Multiplier_tb
 UUT=MAC_tb
 
 ADDER_1bit_SRC="${SRC_DIR}/Full_Adder_1bit.vhd ${TST_DIR}/Full_Adder_1bit_TB.vhd"
@@ -15,6 +17,8 @@ Multiplier_SRC="${ADDER_Nbit_SRC} ${SRC_DIR}/Multiplier.vhd ${TST_DIR}/Multiplie
 MAC_SRC="${SRC_DIR}/MAC.vhd ${TST_DIR}/MAC_TB.vhd"
 simulate() {
 	# Define source code to build/simulate
+	#SRC="${ADDER_Nbit_SRC}"
+	#SRC="${Multiplier_SRC}"
 	SRC="${MAC_SRC}"
 
 	# 1. Syntax check
