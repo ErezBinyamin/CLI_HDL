@@ -49,7 +49,6 @@ begin
 		  	wait for CLK_PERIOD;
 			A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 		  	wait for CLK_PERIOD;
-		--	assert (to_integer(unsigned(Product)) = i*j) report integer'image(i) & " x " & integer'image(j) & " = " & integer'image(i*j);
 		end loop;
 		B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 	  end loop;
