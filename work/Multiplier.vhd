@@ -23,7 +23,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
+--use IEEE.STD_LOGIC_ARITH.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -62,7 +62,54 @@ entity Multiplier is
      );
 end Multiplier;
 
+--architecture Behave of Multiplier is
+--begin
+--	Product <= (SIGNED(A) * SIGNED(B));
+--end Behave;
+
 architecture Structural of Multiplier is
+
+--Type Define a "vector_array"
+    type vector_array is array (n downto 0) of std_logic_vector(((2*n)-2) downto 0);
+
+--Multipling each bit together to generate Partial Product array
+    signal Partial_products : vector_array := (others => (others => '0'));
+
+--Adding all partial products using an accumulator and Carry_array for MSB
+    signal Accumulator      : vector_array := (others => (others => '0'));
+    signal Carry_array      : STD_LOGIC_VECTOR((n-1) downto 0) := (others => '0');
+
 begin
-	Product <= (SIGNED(A) * SIGNED(B));
+
+--GENERATE: Partial_products 
+--Populate 'n' partial products with AND'ed values of A,B
+--Populates i'th vector starting at the j+i'th bit (to account for leading 0's)
+    Whcih_Vector : for i in 0 to n-1 generate begin
+        Whcih_Bit : for j in 0 to n-1 generate begin
+            Partial_products(i)(j+i) <= ((A(j)) AND (B(i)));
+        end generate Whcih_Bit;
+    end generate Whcih_Vector;
+
+--GENERATE:  Accumulator, and Carry_array
+--Add 'n' partial products unsing 'n' '(2n-1)-bit' adders
+    Add : for i in 0 to n-1 generate
+
+         Full_Adder_i : entity work.Full_Adder_Nbit
+         generic map (N => ((2*N)-1))
+         port map
+         (
+             A    =>    Partial_products(i),
+             B    =>    Accumulator(i),
+             Cin  =>    '0',
+             Sum  =>    Accumulator(i+1),
+             Cout =>    Carry_array(i)
+         );
+
+    end generate Add;
+
+--Assign final Product output with last Accumulator Vector
+--Assign final Product output MSB with last Carry bit
+    Product <= Carry_array(n-1) & Accumulator(n);
+
 end Structural;
+
