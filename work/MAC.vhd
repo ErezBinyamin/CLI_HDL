@@ -75,8 +75,9 @@ architecture Behave of MAC is
 begin
 	Product <= (SIGNED(A) * SIGNED(B));
 	Sum     <= SIGNED(Product) + SIGNED(RegMem);
-	RegMem  <= Sum;
-	mac_out <= RegMem;
+	--RegMem  <= Sum;
+	--mac_out <= RegMem;
+	mac_out <= Sum;
 end Behave;
 
 -- architecture Structural of Multiplier is
