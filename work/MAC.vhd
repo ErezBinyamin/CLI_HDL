@@ -47,13 +47,13 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 -- *    |    \       Add         /                     * --            
 -- *    |     +-----------------+                      * --                  
 -- *    |              |                               * --            
--- *    |             Sum                   2N-1      * --         
+-- *    |             Sum                    2N-1      * --         
 -- *    |              |                               * --                
 -- *    |    +---------------------+                   * --               
--- *    +----|       RegMem        |           2N-1      * --              
+-- *    +----|       RegMem        |         2N-1      * --              
 -- *         +---------------------+                   * --            
 -- *                   |                               * --             
--- *                 MacOut                    2N-1      * --               
+-- *                 MacOut                  2N-1      * --               
 -----------------------------------------------------------
 
 
@@ -68,37 +68,34 @@ entity MAC is
 end MAC;
 
 architecture Structural of MAC is
-	signal Product : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal  Product : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
 	signal RegMem  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal Sum     : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal Cout    : STD_LOGIC                            := '0';
+	signal  Sum     : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal  Cout    : STD_LOGIC                            := '0';
 begin
-	--process(A, B, Product, RegMem, Sum, Cout)
-	--begin
 
-		Mult : entity work.Multiplier
-		generic map (N => n)
-		port map
-		(
-		    A       =>  A,
-		    B       =>  B,
-		    Product =>  Product
-		);
+	Mult : entity work.Multiplier
+	generic map (N => n)
+	port map
+	(
+	    A       =>  A,
+	    B       =>  B,
+	    Product =>  Product
+	);
 
-		Add : entity work.Full_Adder_Nbit
-		generic map (N => (2*N))
-		port map
-		(
-		    A    =>    RegMem,
-		    B    =>    Product,
-		    Cin  =>    '0',
-		    Sum  =>    Sum,
-		    Cout =>    Cout
-		);
+	Add : entity work.Full_Adder_Nbit
+	generic map (N => (2*N))
+	port map
+	(
+	    A    =>    Product,
+	    B    =>    RegMem,
+	    Cin  =>    '0',
+	    Sum  =>    Sum,
+	    Cout =>    Cout
+	);
 
-		--RegMem  <= Sum;
-		mac_out <= Sum;
+	--RegMem  <= Sum;
+	mac_out <= Sum;
 
-	--end process;
 end Structural;
 
