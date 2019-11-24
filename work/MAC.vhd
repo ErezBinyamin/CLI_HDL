@@ -69,20 +69,17 @@ end MAC;
 
 architecture Structural of MAC is
 	signal Product : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal Adder_B : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
 	signal RegMem  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
 	signal Sum     : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
 	signal Cout    : STD_LOGIC                            := '0';
 
 	signal clk     : STD_LOGIC                            := '0';
 	signal rst     : STD_LOGIC                            := '0';
-
 	constant CLK_PERIOD : TIME := 10 ns;
 begin
 
-	clock_proc : process(clk)
-	begin
-		clk <= not clk after CLK_PERIOD/2;
-	end process;
+	clk <= not clk after CLK_PERIOD / 2;
 
 	-- Multiply A and B
 	Mult : entity work.Multiplier
@@ -94,31 +91,28 @@ begin
 	    Product =>  Product
 	);
 
-	-- Add Product and RegMem
-	Add : entity work.Full_Adder_Nbit
-	generic map (N => (2*n))
-	port map
-	(
-	    A    =>    Product,
-	    B    =>    RegMem,
-	    Cin  =>    '0',
-	    Sum  =>    Sum,
-	    Cout =>    Cout
-	);
-
-	-- Store Sum into RegMem
-	Reg : entity work.RegMem
-	generic map (N => (2*n))
-	port map
-	(
-	    clk  => clk,
-	    rst  => '0',
-	    Data => Sum,
-	    Mem  => RegMem
-	);
+	--Add Product and RegMem
+	 Add : entity work.Full_Adder_Nbit
+	 generic map (N => (2*n))
+	 port map
+	 (
+	     A    =>    Product,
+	     B    =>    Adder_B,
+	     Cin  =>    '0',
+	     Sum  =>    Sum,
+	     Cout =>    Cout
+	 );
 
 	-- Output RegMem
-	mac_out <= RegMem;
+	process(clk, RegMem, Sum)
+	begin
+		if(clk'event and clk = '1')
+		then
+			Adder_B <= RegMem;
+			RegMem  <= Sum;
+			mac_out <= Sum;
+		end if;
+	end process;
 
 end Structural;
 
