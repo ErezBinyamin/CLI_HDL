@@ -9,6 +9,7 @@ GTK_FILE=${SIM}/gtk.vcd
 #UUT=Full_Adder_Nbit_tb
 #UUT=Multiplier_tb
 UUT=MAC_tb
+STOP_TIME="10000ns"
 
 ADDER_1bit_SRC="${SRC_DIR}/Full_Adder_1bit.vhd ${TST_DIR}/Full_Adder_1bit_TB.vhd"
 ADDER_Nbit_SRC="${SRC_DIR}/Full_Adder_* ${TST_DIR}/Full_Adder_Nbit_TB.vhd"
@@ -28,7 +29,7 @@ simulate() {
 	ghdl -a --ieee=synopsys --workdir=${SIM} ${SRC} || return 1
 	# 3. Generate simulation
 	echo "3. RUN"
-	ghdl -r --ieee=synopsys --workdir=${SIM} ${UUT} --vcd=${GTK_FILE} || return 1
+	ghdl -r --ieee=synopsys --workdir=${SIM} ${UUT} --vcd=${GTK_FILE} --stop-time=${STOP_TIME} || return 1
 	# 4. Run simulation
 	echo "2. SIMULATE"
 	gtkwave ${GTK_FILE}
