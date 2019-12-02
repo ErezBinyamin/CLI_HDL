@@ -104,8 +104,10 @@ begin
 	 );
 
 	-- Output RegMem
+	--process(clk, RegMem, Sum)
 	process(Sclk, RegMem, Sum)
 	begin
+		--if(clk'event and clk = '1')
 		if(Sclk'event and Sclk = '1')
 		then
 			if(rst = '0')
