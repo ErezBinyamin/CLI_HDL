@@ -4,6 +4,8 @@
 --     Takes an 8-bit output from a circuit
 --     and generates a unique signature
 --     for that output.
+-- For more taps visit
+--			http://courses.cse.tamu.edu/walker/csce680/lfsr_table.pdf
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;

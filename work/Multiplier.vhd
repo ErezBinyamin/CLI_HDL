@@ -53,7 +53,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- *                                  (2n-1 downto 0)     *
 -----------------------------------------------------------
 entity Multiplier is
-    generic (n : integer := 4);
+    generic (n : integer := 16);
     port
      (
           A         :   in     STD_LOGIC_VECTOR(n-1 downto 0);

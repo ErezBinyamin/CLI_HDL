@@ -5,6 +5,8 @@
 --      For generating a random number sequence
 --      as an input to an 4-bit multiplier.
 --      (Generating the A and B inputs)
+-- For More Taps visit:
+--			http://courses.cse.tamu.edu/walker/csce680/lfsr_table.pdf
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;

@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Cin determines operation of Adder/Subtractor
 entity Full_Adder_Nbit is
-    generic (N : integer := 4);
+    generic (N : integer := 32);
     port
      (
         A     :   in     STD_LOGIC_VECTOR(n-1 downto 0);

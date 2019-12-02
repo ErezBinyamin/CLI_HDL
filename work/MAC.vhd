@@ -58,7 +58,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 
 
 entity MAC is
-    generic (n : integer := 4);
+    generic (n : integer := 16);
     port
      (
           A        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
