@@ -64,6 +64,7 @@ entity MAC is
           A        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
           B        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
 	  rst      :   in     STD_LOGIC;
+	  clk      :   in     STD_LOGIC;
 	  mac_out  :   out    STD_LOGIC_VECTOR(((2*n)-1) downto 0)
      );
 end MAC;
@@ -75,11 +76,10 @@ architecture Structural of MAC is
 	signal Sum     : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
 	signal Cout    : STD_LOGIC                            := '0';
 
-	signal clk     : STD_LOGIC                            := '0';
-	constant CLK_PERIOD : TIME := 10 ns;
+	signal Sclk    : STD_LOGIC                            := '0';
+	constant SCLK_PERIOD : TIME := 10 ns;
 begin
-
-	clk <= not clk after CLK_PERIOD / 2;
+	Sclk <= not Sclk after SCLK_PERIOD / 2;
 
 	-- Multiply A and B
 	Mult : entity work.Multiplier
@@ -104,9 +104,9 @@ begin
 	 );
 
 	-- Output RegMem
-	process(clk, RegMem, Sum)
+	process(Sclk, RegMem, Sum)
 	begin
-		if(clk'event and clk = '1')
+		if(Sclk'event and Sclk = '1')
 		then
 			if(rst = '0')
 			then
