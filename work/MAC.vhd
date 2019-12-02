@@ -63,7 +63,8 @@ entity MAC is
      (
           A        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
           B        :   in     STD_LOGIC_VECTOR(n-1 downto 0);
-          mac_out  :   out    STD_LOGIC_VECTOR(((2*n)-1) downto 0)
+	  rst      :   in     STD_LOGIC;
+	  mac_out  :   out    STD_LOGIC_VECTOR(((2*n)-1) downto 0)
      );
 end MAC;
 
@@ -75,7 +76,6 @@ architecture Structural of MAC is
 	signal Cout    : STD_LOGIC                            := '0';
 
 	signal clk     : STD_LOGIC                            := '0';
-	signal rst     : STD_LOGIC                            := '0';
 	constant CLK_PERIOD : TIME := 10 ns;
 begin
 
@@ -108,8 +108,15 @@ begin
 	begin
 		if(clk'event and clk = '1')
 		then
-			Adder_B <= RegMem;
-			RegMem  <= Sum;
+			if(rst = '0')
+			then
+				Adder_B <= RegMem;
+				RegMem  <= Sum;
+			else
+				Adder_B <= (others => '0');
+				RegMem  <= (others => '0');
+			end if;
+
 			mac_out <= Sum;
 		end if;
 	end process;
