@@ -14,7 +14,7 @@ STOP_TIME="10000ns"
 ADDER_1bit_SRC="${SRC_DIR}/Full_Adder_1bit.vhd ${TST_DIR}/Full_Adder_1bit_TB.vhd"
 ADDER_Nbit_SRC="${SRC_DIR}/Full_Adder_* ${TST_DIR}/Full_Adder_Nbit_TB.vhd"
 Multiplier_SRC="${ADDER_Nbit_SRC} ${SRC_DIR}/Multiplier.vhd ${TST_DIR}/Multiplier_TB.vhd"
-MAC_SRC="${Multiplier_SRC} ${SRC_DIR}/RegMem.vhd ${SRC_DIR}/MAC.vhd ${TST_DIR}/MAC_TB.vhd"
+MAC_SRC="${Multiplier_SRC} ${SRC_DIR}/MAC.vhd ${TST_DIR}/MAC_TB.vhd"
 simulate() {
 	# Define source code to build/simulate
 	#SRC="${ADDER_Nbit_SRC}"
