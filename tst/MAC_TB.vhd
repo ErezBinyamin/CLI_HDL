@@ -58,12 +58,11 @@ begin
 	
 		-- Exhaustive loop
 		for i in 0 to 15 loop
+			B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 			for j in 0 to 15 loop
-				wait for CLK_PERIOD;
 				A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 				wait for CLK_PERIOD;
 			end loop;
-			B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 		end loop;
 	
 		-- Reset
