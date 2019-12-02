@@ -7,12 +7,16 @@ library IEEE;
 use IEEE.Std_logic_1164.all;
 use IEEE.Numeric_Std.all;
 
+-- Generate Random numbers
+use ieee.math_real.uniform;
+use ieee.math_real.floor;
+
 entity MAC_tb is
 end;
 
 architecture bench of MAC_tb is
 
-  constant N : INTEGER := 4;
+  constant N : INTEGER := 16;
   component MAC
       port
        (
@@ -32,7 +36,6 @@ architecture bench of MAC_tb is
   constant CLK_PERIOD	: TIME					:= 10 ns;
 
 begin
-
 	-- Insert values for generic parameters !!
 	uut: MAC
 	port map ( A       => A,
@@ -45,8 +48,15 @@ begin
 	clk <= not clk after CLK_PERIOD / 2;
 
 	-- Put test bench stimulus code here
-	stimulus: process
+	stimulus: process is
+		variable seed1 : positive;
+		variable seed2 : positive;
+		variable x : real;
+		variable y : integer;
 	begin
+		seed1 := 1;
+		seed2 := 1;
+	
 		-- Reset
 		wait for CLK_PERIOD;
 		A <= (others => '0');
@@ -58,9 +68,15 @@ begin
 	
 		-- Exhaustive loop
 		for i in 0 to 15 loop
-			B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
+			uniform(seed1, seed2, x);
+			y := integer(floor(x * 1024.0));
+			B <= std_logic_vector(to_unsigned(y, B'length));
+			--B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 			for j in 0 to 15 loop
-				A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
+				uniform(seed1, seed2, x);
+				y := integer(floor(x * 1024.0));
+				A <= std_logic_vector(to_unsigned(y, A'length));
+				--A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 				wait until clk='1';
 				wait for CLK_PERIOD;
 			end loop;

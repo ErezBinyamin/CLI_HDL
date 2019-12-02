@@ -12,7 +12,7 @@ end;
 
 architecture bench of Multiplier_tb is
 
-  constant N : INTEGER := 4;
+  constant N : INTEGER := 16;
   component Multiplier
        port
        (
@@ -44,8 +44,8 @@ begin
 	  wait for 2*CLK_PERIOD;
 
 	  -- Multiply everything
-	  for i in 0 to 15 loop
-	  	for j in 0 to 15 loop
+	  for i in 0 to 131071 loop
+	  	for j in 0 to 131071 loop
 		  	wait for CLK_PERIOD;
 			A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 		  	wait for CLK_PERIOD;

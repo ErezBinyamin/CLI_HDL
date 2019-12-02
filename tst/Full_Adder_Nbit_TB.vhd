@@ -12,7 +12,7 @@ end;
 
 architecture bench of Full_Adder_Nbit_tb is
 
-  constant N : INTEGER := 4;
+  constant N : INTEGER := 32;
   component Full_Adder_Nbit
        port
        (
@@ -46,8 +46,8 @@ begin
 
 	  -- Add everything
 	  Cin <= '0';
-	  for i in 0 to 15 loop
-	  	for j in 0 to 15 loop
+	  for i in 0 to 131071 loop
+	  	for j in 0 to 131071 loop
 		  	wait for CLK_PERIOD;
 			A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 		  	wait for CLK_PERIOD;
