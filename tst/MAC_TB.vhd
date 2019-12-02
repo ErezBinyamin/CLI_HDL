@@ -38,7 +38,7 @@ begin
 	port map ( A       => A,
                    B       => B,
 		   rst     => rst,
-		   clk     => rst,
+		   clk     => clk,
                    mac_out => mac_out );
 
 	-- Establish clk
@@ -61,6 +61,7 @@ begin
 			B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 			for j in 0 to 15 loop
 				A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
+				wait until clk='1';
 				wait for CLK_PERIOD;
 			end loop;
 		end loop;
