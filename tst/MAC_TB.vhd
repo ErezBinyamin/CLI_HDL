@@ -66,17 +66,15 @@ begin
 		rst <= '0';
 		wait for CLK_PERIOD;
 	
-		-- Exhaustive loop
+		-- Generate random numbers loop
 		for i in 0 to 15 loop
 			uniform(seed1, seed2, x);
 			y := integer(floor(x * 1024.0));
 			B <= std_logic_vector(to_unsigned(y, B'length));
-			--B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 			for j in 0 to 15 loop
 				uniform(seed1, seed2, x);
 				y := integer(floor(x * 1024.0));
 				A <= std_logic_vector(to_unsigned(y, A'length));
-				--A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 				wait until clk='1';
 				wait for CLK_PERIOD;
 			end loop;
