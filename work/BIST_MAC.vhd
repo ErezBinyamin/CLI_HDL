@@ -75,7 +75,7 @@ entity BIST_MAC is
 	  clk      :   in     STD_LOGIC;
 	  output   :   out    STD_LOGIC_VECTOR(((2*n)-1) downto 0)
      );
-end MAC;
+end BIST_MAC;
 
 architecture Structural of BIST_MAC is
 	signal lfsr_out : STD_LOGIC_VECTOR(n downto 0)         := (others => '0'); --16 bit LFSR
@@ -85,7 +85,7 @@ architecture Structural of BIST_MAC is
 	signal misr_sig : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0'); --32 bit MISR signature
 begin
 	-- LFSR Input
-	rand_in : entity work.LFSR
+	lfsr_in : entity work.LFSR
 	port map
 	(
 	    clk     => clk,
@@ -109,7 +109,7 @@ begin
 	);
 
 	-- MISR Check output
-	rand_in : entity work.MISR
+	mist_out : entity work.MISR
 	port map
 	(
 	    clk       => clk,
@@ -117,7 +117,7 @@ begin
 	    enable    => tst_mode,
 	    mult_r    => mac_out,
 
-	    signature => misr_sig,
+	    signature => misr_sig
 	);
 
 	-- Logic for tst vs not tst
