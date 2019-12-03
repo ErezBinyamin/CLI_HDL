@@ -33,7 +33,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 -----------------------------------------------------------
 -- *          MAC Unit with Built in self test         * -- 
 -----------------------------------------------------------
--- *        tst_mode            A           B          * -- 
+-- ***      tst_mode            A           B        *** -- 
 -- *           |                |           |          * -- 
 -- *           |   ------       |           |          * -- 
 -- *           +--| LFSR |      |           |          * -- 
@@ -60,7 +60,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 -- *           |                      |       |        * -- 
 -- *           +---------------------[?]------+        * -- 
 -- *                                  |                * -- 
--- *                                output             * -- 
+-- ***                              output           *** -- 
 -----------------------------------------------------------
 
 
@@ -78,11 +78,11 @@ entity BIST_MAC is
 end MAC;
 
 architecture Structural of BIST_MAC is
-	signal lfsr_out : STD_LOGIC_VECTOR(n downto 0)         := (others => '0');
-	signal mac_A    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0');
-	signal mac_B    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0');
-	signal mac_out  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal misr_sig  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal lfsr_out : STD_LOGIC_VECTOR(n downto 0)         := (others => '0'); --16 bit LFSR
+	signal mac_A    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0'); --16 bit A input
+	signal mac_B    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0'); --16 bit B input
+	signal mac_out  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0'); --32 bit mac output
+	signal misr_sig : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0'); --32 bit MISR signature
 begin
 	-- LFSR Input
 	rand_in : entity work.LFSR
@@ -91,6 +91,7 @@ begin
 	    clk     => clk,
 	    rst     => rst,
 	    enable  => tst_mode,
+
 	    bit_p   => lfsr_out
 	);
 
@@ -103,6 +104,7 @@ begin
 	    B       =>  mac_B,
 	    rst     =>  rst,
 	    clk     =>  clk,
+
 	    mac_out =>  mac_out
 	);
 
@@ -114,6 +116,7 @@ begin
 	    rst       => rst,
 	    enable    => tst_mode,
 	    mult_r    => mac_out,
+
 	    signature => misr_sig,
 	);
 
