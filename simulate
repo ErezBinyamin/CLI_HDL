@@ -2,24 +2,42 @@
 # Uses GHDL commands to syntax check, compile, then prepare for gdkwave simulation
 # Calls gdkwave to simulate logical design
 
+# Easy controll for switching simulations
+	# 1 Ripple Carry Adder
+	# 2 Multiplier
+	# 3 MAC Unit
+	# 4 MAC Unit with BIST
+DESIGN=3
+###################################################################
+STOP_TIME="10000ns"
 SIM=out
 SRC_DIR=work
 TST_DIR=tst
 GTK_FILE=${SIM}/gtk.vcd
-#UUT=Full_Adder_Nbit_tb
-#UUT=Multiplier_tb
-UUT=MAC_tb
-STOP_TIME="10000ns"
 
-ADDER_1bit_SRC="${SRC_DIR}/Full_Adder_1bit.vhd ${TST_DIR}/Full_Adder_1bit_TB.vhd"
-ADDER_Nbit_SRC="${SRC_DIR}/Full_Adder_* ${TST_DIR}/Full_Adder_Nbit_TB.vhd"
-Multiplier_SRC="${ADDER_Nbit_SRC} ${SRC_DIR}/Multiplier.vhd ${TST_DIR}/Multiplier_TB.vhd"
-MAC_SRC="${Multiplier_SRC} ${SRC_DIR}/MAC.vhd ${TST_DIR}/MAC_TB.vhd"
+ADDER_1bit_SRC="${SRC_DIR}/Full_Adder_1bit.vhd"
+ADDER_Nbit_SRC="${ADDER_1bit_SRC} ${SRC_DIR}/Full_Adder_Nbit.vhd"
+Multiplier_SRC="${ADDER_Nbit_SRC} ${SRC_DIR}/Multiplier.vhd"
+MAC_SRC="${Multiplier_SRC} ${SRC_DIR}/MAC.vhd"
+MAC_BIST_SRC="${MAC_SRC} ${SRC_DIR}/LFSR.vhd ${SRC_DIR}/MISR.vhd"
+
+ADDER_1bit_TB="${TST_DIR}/Full_Adder_1bit_TB.vhd"
+ADDER_Nbit_TB="${TST_DIR}/Full_Adder_Nbit_TB.vhd"
+Multiplier_TB="${TST_DIR}/Multiplier_TB.vhd"
+MAC_TB="${TST_DIR}/MAC_TB.vhd"
+MAC_BIST_TB="${TST_DIR}/MAC_BIST_TB.vhd"
 simulate() {
 	# Define source code to build/simulate
-	#SRC="${ADDER_Nbit_SRC}"
-	#SRC="${Multiplier_SRC}"
-	SRC="${MAC_SRC}"
+	[ $DESIGN -eq 1 ] && SRC="${ADDER_Nbit_SRC} ${ADDER_Nbit_TB}"	# Ripple Carry Adder
+	[ $DESIGN -eq 2 ] && SRC="${Multiplier_SRC} ${Multiplier_TB}"	# Multiplier
+	[ $DESIGN -eq 3 ] && SRC="${MAC_SRC} ${MAC_TB}"			# MAC Unit
+	[ $DESIGN -eq 4 ] && SRC="${MAC_BIST_SRC} ${MAC_BIST_TB}"	# MAC Unit with BIST
+
+	# Specify a unit under test
+	[ $DESIGN -eq 1 ] && UUT=Full_Adder_Nbit_tb			# Ripple Carry Adder
+	[ $DESIGN -eq 2 ] && UUT=Multiplier_tb				# Multiplier
+	[ $DESIGN -eq 3 ] && UUT=MAC_tb					# MAC Unit
+	[ $DESIGN -eq 4 ] && UUT=MAC_BIST_tb				# MAC Unit with BIST
 
 	# 1. Syntax check
 	echo "1. SYNTAX"
