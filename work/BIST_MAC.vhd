@@ -78,7 +78,11 @@ entity BIST_MAC is
 end MAC;
 
 architecture Structural of BIST_MAC is
-
+	signal lfsr_out : STD_LOGIC_VECTOR(n downto 0)         := (others => '0');
+	signal mac_A    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0');
+	signal mac_B    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0');
+	signal mac_out  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal misr_sig  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
 begin
 	-- LFSR Input
 	rand_in : entity work.LFSR
@@ -114,5 +118,27 @@ begin
 	);
 
 	-- Logic for tst vs not tst
+	process(clk)
+	begin
+		if(clk'event and clk='1')
+		then
+			if(rst='0' and tst_mode='0')
+			then
+				mac_A  <= A;
+				mac_B  <= B;
+				output <= mac_out;
+			elsif(rst='0' and tst_mode='1')
+			then
+				mac_A  <= A;
+				mac_B  <= lfsr_out;
+				output <= misr_sig;
+			elsif(rst='1')
+			then
+				mac_A  <= (others => '0');
+				mac_B  <= (others => '0');
+				output <= (others => '0');
+			end if;
+		end if;
+	end process;
 end Structural;
 
