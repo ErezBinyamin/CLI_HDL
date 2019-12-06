@@ -91,7 +91,7 @@ begin
 	port map
 	(
 	    clk     => clk,
-	    rst     => clk,       --IDK why but we had to do this
+	    rst     => clk, --rst REPLACED rst signal with clk
 	    enable  => tst_mode,
 
 	    bit_p   => lfsr_out
@@ -119,7 +119,7 @@ begin
 	port map
 	(
 	    clk       => clk,
-	    rst       => clk,       -- Fukin insane
+	    rst       => clk, --rst, REPLACED rst signal with clk
 	    enable    => tst_mode,
 	    mult_r    => mac_out,
 
@@ -127,7 +127,7 @@ begin
 	);
 
 	-- Logic for tst vs not tst
-	process(clk)
+	process(clk, rst, tst_mode)
 	begin
 		if(clk'event and clk='1')
 		then

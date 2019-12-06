@@ -41,7 +41,7 @@ begin
 
 --SYNCHRONOUS shift register
 --with a bit of LFSR pizaz (taps)
-    process (clk) is
+    process (clk, rst, enable) is
     begin
             if (rising_edge(clk)) then
                 if rst = '0' then
