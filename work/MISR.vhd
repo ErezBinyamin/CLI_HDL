@@ -37,6 +37,7 @@ end MISR;
 
 architecture Behavioral of MISR is
     signal xnorn : std_logic_vector(31 downto 0) := "00000000000000000000000000000001"; --DEFAULT TO 1 because 0 is a NO NO
+    signal zero_bit : std_logic := '0';
 begin
 
 --SYNCHRONOUS shift register
@@ -48,38 +49,39 @@ begin
                     xnorn <= "00000000000000000000000000000001"; --RESET
                 else
                     if enable = '1' then
-			xnorn(30) <= mult_r(30) xnor xnorn(31);
-			xnorn(29) <= mult_r(29) xnor xnorn(30);
-			xnorn(28) <= mult_r(28) xnor xnorn(29);
-			xnorn(27) <= mult_r(27) xnor xnorn(28);
-			xnorn(26) <= mult_r(26) xnor xnorn(27);
-			xnorn(25) <= mult_r(25) xnor xnorn(26);
-			xnorn(24) <= mult_r(24) xnor xnorn(25);
-			xnorn(23) <= mult_r(23) xnor xnorn(24);
-			xnorn(22) <= mult_r(22) xnor xnorn(23);
-			xnorn(21) <= mult_r(21) xnor xnorn(22);
-			xnorn(20) <= mult_r(20) xnor xnorn(21);
-			xnorn(19) <= mult_r(19) xnor xnorn(20);
-			xnorn(18) <= mult_r(18) xnor xnorn(19);
-			xnorn(17) <= mult_r(17) xnor xnorn(18);
-			xnorn(16) <= mult_r(16) xnor xnorn(17);
-			xnorn(15) <= mult_r(15) xnor xnorn(16);
-			xnorn(14) <= mult_r(14) xnor xnorn(15);
-			xnorn(13) <= mult_r(13) xnor xnorn(14);
-			xnorn(12) <= mult_r(12) xnor xnorn(13);
-			xnorn(11) <= mult_r(11) xnor xnorn(12);
-			xnorn(10) <= mult_r(10) xnor xnorn(11);
-			xnorn(9)  <= mult_r(9) xnor xnorn(10);
-			xnorn(8)  <= mult_r(8) xnor xnorn(9);
-			xnorn(7)  <= mult_r(7) xnor xnorn(8);
-			xnorn(6)  <= mult_r(6) xnor xnorn(7);
-			xnorn(5)  <= mult_r(5) xnor xnorn(6);
-			xnorn(4)  <= mult_r(4) xnor xnorn(5);
-			xnorn(3)  <= mult_r(3) xnor xnorn(4);
-			xnorn(2)  <= mult_r(2) xnor xnorn(3);
-			xnorn(1)  <= mult_r(1) xnor xnorn(2);
-			xnorn(0)  <= mult_r(0) xnor xnorn(1);
-                        xnorn(31) <= mult_r(31) xnor xnorn(31) xnor xnorn(28) xnor xnorn(24) xnor xnorn(23); --TAPS
+			    zero_bit  <= xnorn(0); -- Save Zero bit for TAPS
+			    xnorn(0)  <= mult_r(0) xor xnorn(1);               -- DFF 
+			    xnorn(1)  <= mult_r(1) xor xnorn(2);               -- DFF 
+			    xnorn(2)  <= mult_r(2) xor xnorn(3);               -- DFF 
+			    xnorn(3)  <= mult_r(3) xor xnorn(4);               -- DFF 
+			    xnorn(4)  <= mult_r(4) xor xnorn(5);               -- DFF 
+			    xnorn(5)  <= mult_r(5) xor xnorn(6);               -- DFF 
+			    xnorn(6)  <= mult_r(6) xor xnorn(7);               -- DFF 
+			    xnorn(7)  <= mult_r(7) xor xnorn(8);               -- DFF 
+			    xnorn(8)  <= mult_r(8) xor xnorn(9);               -- DFF 
+			    xnorn(9)  <= mult_r(9) xor xnorn(10);              -- DFF
+			    xnorn(10) <= mult_r(10) xor xnorn(11);              -- DFF
+			    xnorn(11) <= mult_r(11) xor xnorn(12);              -- DFF
+			    xnorn(12) <= mult_r(12) xor xnorn(13);              -- DFF
+			    xnorn(13) <= mult_r(13) xor xnorn(14);              -- DFF
+			    xnorn(14) <= mult_r(14) xor xnorn(15);              -- DFF
+			    xnorn(15) <= mult_r(15) xor xnorn(16);              -- DFF
+			    xnorn(16) <= mult_r(16) xor xnorn(17);              -- DFF
+			    xnorn(17) <= mult_r(17) xor xnorn(18);              -- DFF
+			    xnorn(18) <= mult_r(18) xor xnorn(19);              -- DFF
+			    xnorn(19) <= mult_r(19) xor xnorn(20);              -- DFF
+			    xnorn(20) <= mult_r(20) xor xnorn(21);              -- DFF
+			    xnorn(21) <= mult_r(21) xor xnorn(22);              -- DFF
+			    xnorn(22) <= mult_r(22) xor xnorn(23);              -- DFF
+			    xnorn(23) <= mult_r(23) xor xnorn(24);              -- DFF
+			    xnorn(24) <= mult_r(24) xor xnorn(25);              -- DFF
+			    xnorn(25) <= mult_r(25) xor xnorn(26);              -- DFF
+			    xnorn(26) <= mult_r(26) xor xnorn(27) xor zero_bit; -- TAP 27
+			    xnorn(27) <= mult_r(27) xor xnorn(28);              -- DFF
+			    xnorn(28) <= mult_r(28) xor xnorn(29) xor zero_bit; -- TAP 29
+			    xnorn(29) <= mult_r(29) xor xnorn(30) xor zero_bit; -- TAP 30
+			    xnorn(30) <= mult_r(30) xor xnorn(31);              -- DFF
+			    xnorn(31) <= mult_r(31) xor zero_bit;               -- TAP 32
                     else
                         xnorn <= xnorn;       --HOLD
                     end if;

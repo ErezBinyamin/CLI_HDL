@@ -92,6 +92,7 @@ begin
 	(
 	    clk     => clk,
 	    rst     => clk, --rst REPLACED rst signal with clk
+	    --rst     => rst,
 	    enable  => tst_mode,
 
 	    bit_p   => lfsr_out
@@ -120,6 +121,7 @@ begin
 	(
 	    clk       => clk,
 	    rst       => clk, --rst, REPLACED rst signal with clk
+	    --rst       => rst,
 	    enable    => tst_mode,
 	    mult_r    => mac_out,
 
