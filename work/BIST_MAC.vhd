@@ -41,7 +41,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 -- *           |      |         |           |          * -- 
 -- *           |  lfsr_out      |           |          * -- 
 -- *           |      |         |           |          * -- 
--- *           +------+--------[?]          |          * -- 
+-- *           +------+--------[?]---------[?]         * -- 
 -- *           |                |           |          * -- 
 -- *           |              mac_A         |          * -- 
 -- *           |                |           |          * -- 
@@ -78,9 +78,11 @@ entity BIST_MAC is
 end BIST_MAC;
 
 architecture Structural of BIST_MAC is
-	signal lfsr_out : STD_LOGIC_VECTOR(n downto 0)         := (others => '0'); --16 bit LFSR
-	signal mac_A    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0'); --16 bit A input
-	signal mac_B    : STD_LOGIC_VECTOR(n downto 0)         := (others => '0'); --16 bit B input
+	signal lfsr_out : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0'); --32 bit LFSR
+	signal lfsr_A   : STD_LOGIC_VECTOR((n-1) downto 0)     := (others => '0'); --16 bit A input
+	signal lfsr_B   : STD_LOGIC_VECTOR((n-1) downto 0)     := (others => '0'); --16 bit B input
+	signal mac_A    : STD_LOGIC_VECTOR((n-1) downto 0)     := (others => '0'); --16 bit A input
+	signal mac_B    : STD_LOGIC_VECTOR((n-1) downto 0)     := (others => '0'); --16 bit B input
 	signal mac_out  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0'); --32 bit mac output
 	signal misr_sig : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0'); --32 bit MISR signature
 begin
@@ -94,6 +96,10 @@ begin
 
 	    bit_p   => lfsr_out
 	);
+
+	-- Assign LFSR inputs to MAC
+	lfsr_A <= lfsr_out(((2*n)-1) downto n);
+        lfsr_B <= lfsr_out((n-1) downto 0);
 
 	-- MAC Unit
 	MacU: entity work.MAC
@@ -109,7 +115,7 @@ begin
 	);
 
 	-- MISR Check output
-	mist_out : entity work.MISR
+	misr_out : entity work.MISR
 	port map
 	(
 	    clk       => clk,
@@ -132,14 +138,14 @@ begin
 				output <= mac_out;
 			elsif(rst='0' and tst_mode='1')
 			then
-				mac_A  <= A;
-				mac_B  <= lfsr_out;
+				mac_A  <= lfsr_A;
+				mac_B  <= lfsr_B;
 				output <= misr_sig;
 			elsif(rst='1')
 			then
 				mac_A  <= (others => '0');
 				mac_B  <= (others => '0');
-				output <= (others => '0');
+				output <= mac_out;
 			end if;
 		end if;
 	end process;
