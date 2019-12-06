@@ -91,7 +91,7 @@ begin
 	port map
 	(
 	    clk     => clk,
-	    rst     => rst,
+	    rst     => clk,       --IDK why but we had to do this
 	    enable  => tst_mode,
 
 	    bit_p   => lfsr_out
@@ -119,7 +119,7 @@ begin
 	port map
 	(
 	    clk       => clk,
-	    rst       => rst,
+	    rst       => clk,       -- Fukin insane
 	    enable    => tst_mode,
 	    mult_r    => mac_out,
 
