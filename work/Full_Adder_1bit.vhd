@@ -43,16 +43,10 @@ end Full_Adder_1bit;
 
 architecture Behavioral of Full_Adder_1bit is
 
-signal Two_ones   : STD_LOGIC;
-signal Three_ones : STD_LOGIC;
-
 begin
 
-    Three_ones <=  A AND B AND Cin;
-    Two_ones   <= ((A AND B) OR (A AND Cin) OR (B AND Cin)) AND (NOT Three_ones);
-
-    Sum        <= (A OR B OR Cin) AND (NOT Two_ones);
-    Cout       <=  Two_ones OR Three_ones;
+    Sum        <= A XOR B XOR Cin;
+    Cout       <=  ((A AND B) OR (A AND Cin) OR (B AND Cin));
 
 end Behavioral;
 
