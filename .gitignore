@@ -7,3 +7,6 @@
 
 #GHDL generated GTKWAVE file
 *.vcd
+
+# Ignore report direcory
+report/*
