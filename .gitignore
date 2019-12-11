@@ -10,3 +10,6 @@
 
 # Ignore report direcory
 report/.*
+
+# Ignote odt files
+*.odt
