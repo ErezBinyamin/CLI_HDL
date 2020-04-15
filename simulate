@@ -3,11 +3,12 @@
 # Calls gdkwave to simulate logical design
 
 # Easy controll for switching simulations
+	# 1bit full Adder
 	# 1 Ripple Carry Adder
 	# 2 Multiplier
 	# 3 MAC Unit
 	# 4 MAC Unit with BIST
-DESIGN=4
+DESIGN=0
 ###################################################################
 STOP_TIME="10000ns"
 SIM=out
@@ -28,12 +29,14 @@ MAC_TB="${TST_DIR}/MAC_TB.vhd"
 BIST_MAC_TB="${TST_DIR}/BIST_MAC_TB.vhd"
 simulate() {
 	# Define source code to build/simulate
+	[ $DESIGN -eq 0 ] && SRC="${ADDER_1bit_SRC} ${ADDER_1bit_TB}"	# Ripple Carry Adder
 	[ $DESIGN -eq 1 ] && SRC="${ADDER_Nbit_SRC} ${ADDER_Nbit_TB}"	# Ripple Carry Adder
 	[ $DESIGN -eq 2 ] && SRC="${Multiplier_SRC} ${Multiplier_TB}"	# Multiplier
 	[ $DESIGN -eq 3 ] && SRC="${MAC_SRC} ${MAC_TB}"			# MAC Unit
 	[ $DESIGN -eq 4 ] && SRC="${BIST_MAC_SRC} ${BIST_MAC_TB}"	# MAC Unit with BIST
 
 	# Specify a unit under test
+	[ $DESIGN -eq 0 ] && UUT=Full_Adder_1bit_tb			# Ripple Carry Adder
 	[ $DESIGN -eq 1 ] && UUT=Full_Adder_Nbit_tb			# Ripple Carry Adder
 	[ $DESIGN -eq 2 ] && UUT=Multiplier_tb				# Multiplier
 	[ $DESIGN -eq 3 ] && UUT=MAC_tb					# MAC Unit
