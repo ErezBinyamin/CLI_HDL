@@ -20,3 +20,6 @@ git clone https://github.com/ErezBinyamin/MAC_Unit.git
 cd MAC_Unit
 ./simulate
 ```
+
+## GTK-wave simulation output
+[](report/gtkwave_output.png)
