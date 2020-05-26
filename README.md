@@ -1,5 +1,5 @@
 # MAC_Unit
-Digital Integrated Circuit Design Final project
+Intro to GHDL with a basic Multiply and Accumulate with Build in Self Test (BIST)
 
 ## Prerequisite packages install script
 ```
