@@ -22,4 +22,4 @@ cd MAC_Unit
 ```
 
 ## GTK-wave simulation output
-[](report/gtkwave_output.png)
+![output](report/gtkwave_output.png)
