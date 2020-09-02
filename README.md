@@ -18,14 +18,14 @@ sudo apt install gtkwave
 ```
 git clone https://github.com/ErezBinyamin/MAC_Unit.git
 cd MAC_Unit
-./simulate
+make test4
 ```
 
 ## Test intermediary structures
-- N-bit adder: ```./simulate 1```  
-- N-bit Multiplier: ```./simulate 2```  
-- MAC unit: ```./simulate 3```  
-- BIST-MAC ```./simulate 4```  
+- N-bit adder: ```make test1```  
+- N-bit Multiplier: ```make test2```  
+- MAC unit: ```make test3```  
+- BIST-MAC ```make test4```  
 
 ## GTK-wave simulation output
 ![output](report/gtkwave_output.png)
