@@ -7,7 +7,7 @@
 	# 2 Multiplier
 	# 3 MAC Unit
 	# 4 MAC Unit with BIST
-DESIGN=4
+DESIGN=${1:-4}
 ###################################################################
 STOP_TIME="10000ns"
 SIM=out
