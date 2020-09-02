@@ -21,5 +21,11 @@ cd MAC_Unit
 ./simulate
 ```
 
+## Test intermediary structures
+- N-bit adder: ```./simulate 1```  
+- N-bit Multiplier: ```./simulate 2```  
+- MAC unit: ```./simulate 3```  
+- BIST-MAC ```./simulate 4```  
+
 ## GTK-wave simulation output
 ![output](report/gtkwave_output.png)
