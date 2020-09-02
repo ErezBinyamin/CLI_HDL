@@ -21,7 +21,7 @@ cd MAC_Unit
 make test4
 ```
 
-## Test intermediary structures
+## Test intermediary components
 - N-bit adder: ```make test1```  
 - N-bit Multiplier: ```make test2```  
 - MAC unit: ```make test3```  
@@ -29,3 +29,19 @@ make test4
 
 ## GTK-wave simulation output
 ![output](report/gtkwave_output.png)
+
+## Project Structure
+> **work** - contains project components  
+> > A.vhd  
+> > B.vhd  
+
+> **tst** - contains testbenches for each component  
+> > A_TB.vhd  
+> > B_TB.vhd  
+
+> **out** - contains output artifacts from builds  
+> **report** - contains files needed for final report  
+
+## Build system
+Using `ghdl -s` for syntax checks and `ghdl -a` for compilation, all `.vhd` files are checked/compiled using the first generic target.
+Using `ghdl -r` for simulations, all `.vhd` testbenches can be simulated into `.vcd` files. The testbench entity name must match the testbench filename.
