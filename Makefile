@@ -20,7 +20,7 @@ test4: BIST_MAC_TEST
 	$(GHDL) -a $(GHDLFLAGS) $<
 
 %.vcd: %.o
-	$(GHDL) -r $(GHDLFLAGS) $(shell basename $@ | sed 's/\..*//') --vcd=$@ --stop-time=$(STOP_TIME)
+	$(GHDL) -r $(GHDLFLAGS) $(*F) --vcd=$@ --stop-time=$(STOP_TIME)
 
 # Elaboration Targets
 FULL_ADD: $(SRC_DIR)/Full_Adder_1bit.o $(SRC_DIR)/Full_Adder_Nbit.o
@@ -41,4 +41,5 @@ BIST_MAC_TEST: BIST_MAC $(TST_DIR)/BIST_MAC_TB.vcd
 
 # Clean Rule
 clean:
-	rm $(SIM_DIR)/*
+	rm -f $(TST_DIR)/*.vcd
+	rm -f $(SIM_DIR)/*
