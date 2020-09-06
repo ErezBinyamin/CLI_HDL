@@ -35,14 +35,15 @@ begin
 	uut: Multiplier
  	--generic map( N => N );
 	port map ( A    => A,
-                   B    => B,
-                   Product  => Product);
+               B    => B,
+               Product  => Product);
 
 	stimulus: process is
 		variable seed1 : positive;
 		variable seed2 : positive;
 		variable x : real;
-		variable y : integer;
+		variable bb : integer;
+		variable aa : integer;
 	begin
 		-- Reset
 		A <= (others => '0');
@@ -52,13 +53,18 @@ begin
 		-- Generate random numbers loop
 		for i in 0 to 15 loop
 			uniform(seed1, seed2, x);
-			y := integer(floor(x * 1024.0));
-			B <= std_logic_vector(to_unsigned(y, B'length));
+			bb := integer(floor(x * 1024.0));
+			B <= std_logic_vector(to_unsigned(bb, B'length));
 			for j in 0 to 15 loop
 				uniform(seed1, seed2, x);
-				y := integer(floor(x * 1024.0));
-				A <= std_logic_vector(to_unsigned(y, A'length));
+				aa := integer(floor(x * 1024.0));
+				A <= std_logic_vector(to_unsigned(aa, A'length));
 				wait for CLK_PERIOD;
+                assert unsigned(Product) = aa * bb report "FAIL: " &
+                                                    integer'image(aa) & " * " &
+                                                    integer'image(bb) & " = " &
+                                                    integer'image(to_integer(unsigned(Product)))
+                                                    severity failure;
 			end loop;
 		end loop;
 
