@@ -1,5 +1,5 @@
 # Configurable variables
-SOURCE?=Full_Adder_1bit.vhd Full_Adder_Nbit.vhd Multiplier.vhd LFSR.vhd MISR.vhd MAC.vhd BIST_MAC.vhd
+SOURCE?=$(shell bash get_dep_list.sh)
 STOP_TIME?=10000ns
 SIM_DIR?=out
 SRC_DIR?=work
@@ -23,7 +23,7 @@ test: all $(TESTBENCH:.vhd=.vcd)
 	$(GHDL) -r $(GHDLFLAGS) $(*F) --vcd=$@ --stop-time=$(STOP_TIME)
 
 # Elaboration Targets
-all: $(shell echo $(SOURCE) | sed 's/[^ ]* */work\/&/g; s/\.vhd/\.o/g') 
+all: $(shell echo $(SOURCE) | sed 's/\.vhd/\.o/g') 
 
 # Clean Rule
 clean:
