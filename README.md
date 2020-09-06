@@ -40,12 +40,12 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 > > B.vhd  
 
 
-> > **\[FRUIT_DEPENDENCY\]**  
+> > **\[FRUIT_DEPENDENCY\]**  - some dependency needed to compile A.vhd and B.vhd
 > > > apple.vhd  
 > > > grapes.vhd  
 
 
-> > **\[VEGGIE_DEPENDENCY\]**  
+> > **\[VEGGIE_DEPENDENCY\]**  - some dependency needed to compile A.vhd and B.vhd
 > > > cucumber.vhd  
 > > > corn.vhd  
 
@@ -58,5 +58,8 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 ---
 
 ## Build system
-Using `ghdl -s` for syntax checks and `ghdl -a` for compilation, all `.vhd` files are checked/compiled using the first generic target.
-Using `ghdl -r` for simulations, all `.vhd` testbenches can be simulated into `.vcd` files. The testbench entity name must match the testbench filename.
+- Put new source code in [work](https://github.com/ErezBinyamin/MAC_Unit/tree/master/work)  
+- Pus new testbenches in [tst](https://github.com/ErezBinyamin/MAC_Unit/tree/master/tst)  
+- The [Makefile](https://github.com/ErezBinyamin/MAC_Unit/blob/master/Makefile) `make all` rule will find all of the source files in [work](https://github.com/ErezBinyamin/MAC_Unit/tree/master/work), syntax check them `ghdl -s` and compile them `ghdl -a  
+- Dependency management between source files is resloved with a [Makefile](https://github.com/ErezBinyamin/MAC_Unit/blob/master/Makefile) enforced **Project Structure**. All dependent source files must exist in subfolders *beneath* the *higher* level components that depend upon them  
+- The [Makefile](https://github.com/ErezBinyamin/MAC_Unit/blob/master/Makefile) will call [get_dep_list.sh](https://github.com/ErezBinyamin/MAC_Unit/blob/master/get_dep_list.sh) to generate an oreder list of dependencies based upon the **Project Structre** and compile targets in the correct order.
