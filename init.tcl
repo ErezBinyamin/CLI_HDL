@@ -10,3 +10,6 @@ for {set i 0} {$i < $nsigs} {incr i} {
     lappend sigs $name
 }
 set added [ gtkwave::addSignalsFromList $sigs ]
+
+# Zoom
+gtkwave::/Time/Zoom/Zoom_Full
