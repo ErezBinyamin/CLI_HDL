@@ -30,7 +30,11 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 ## GTK-wave simulation output
 ![output](report/gtkwave_output.png)
 
+---
 ## Project Structure
+
+<img align="right" src="report/project_structure.png">
+
 > **work** - contains project components organized in dependency structure
 > > A.vhd  
 > > B.vhd  
@@ -51,8 +55,7 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 
 > **out** - contains output artifacts from builds  
 > **report** - contains files needed for final report  
-
-![example](report/project_structure.png)
+---
 
 ## Build system
 Using `ghdl -s` for syntax checks and `ghdl -a` for compilation, all `.vhd` files are checked/compiled using the first generic target.
