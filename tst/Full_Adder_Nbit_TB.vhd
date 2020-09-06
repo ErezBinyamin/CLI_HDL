@@ -38,27 +38,22 @@ begin
 	    A <= (others => '0');
 	    B <= (others => '0');
         wait for CLK_PERIOD;
-        assert unsigned(Sum) = 0 report integer'image(to_integer(unsigned(A))) & " + " &
-                                        integer'image(to_integer(unsigned(B))) & " = " &
-                                        integer'image(to_integer(unsigned(Sum)))
-                                        severity error;
-        -- 1 + 2 = 3
-	    A <= (0 => '1', others => '0');
-	    B <= (1 => '1', others => '0');
-        wait for CLK_PERIOD;
-        assert unsigned(Sum) = 3 report integer'image(to_integer(unsigned(A))) & " + " &
-                                        integer'image(to_integer(unsigned(B))) & " = " &
-                                        integer'image(to_integer(unsigned(Sum)))
-                                        severity error;
+        assert unsigned(Sum) = 0 report "FAIL: 0 + 0 = 0" severity failure;
+
         -- Add everything
 	    Cin <= '0';
 	    for i in 0 to 15 loop
+            B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 	        for j in 0 to 15 loop
                 wait for CLK_PERIOD;
                 A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
                 wait for CLK_PERIOD;
-                end loop;
-            B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
+                assert unsigned(Sum) = j + i report "FAIL: " &
+                                                    integer'image(j) & " + " &
+                                                    integer'image(i) & " = " &
+                                                    integer'image(to_integer(unsigned(Sum)))
+                                                    severity failure;
+            end loop;
 	    end loop;
 
 	    -- Reset
@@ -70,12 +65,17 @@ begin
 	    -- Subtract everything
 	    Cin <= '1';
 	    for i in 0 to 15 loop
+	        B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 	    	for j in 0 to 15 loop
 	        	wait for CLK_PERIOD;
-	      	A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
+	      	    A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 	        	wait for CLK_PERIOD;
+                assert signed(Sum) = j - i report "FAIL: " &
+                                                    integer'image(i) & " - " &
+                                                    integer'image(j) & " = " &
+                                                    integer'image(to_integer(signed(Sum)))
+                                                    severity failure;
 	    	end loop;
-	      B <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, B'length));
 	    end loop;
 
   	    wait;
