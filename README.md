@@ -51,6 +51,7 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 
 > **out** - contains output artifacts from builds  
 > **report** - contains files needed for final report  
+
 ![example](report/project_structure.png)
 
 ## Build system
