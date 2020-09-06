@@ -1,4 +1,4 @@
-# Configurable variables
+# Configurable variables - Can be overridden in enviroment
 SOURCE?=$(shell bash get_dep_list.sh)
 STOP_TIME?=10000ns
 SIM_DIR?=out
@@ -14,18 +14,19 @@ GTKFLAGS=--tcl_init init.tcl
 test: all $(TESTBENCH:.vhd=.vcd)
 	$(GTK) $(GTKFLAGS) $(TESTBENCH:.vhd=.vcd)
 
-# Generic Targets
+# Syntax check and compile
 %.o : %.vhd
 	$(GHDL) -s $(GHDLFLAGS) $<
 	$(GHDL) -a $(GHDLFLAGS) $<
 
+# Run simulation
 %.vcd: %.o
 	$(GHDL) -r $(GHDLFLAGS) $(*F) --vcd=$@ --stop-time=$(STOP_TIME)
 
-# Elaboration Targets
+# Compile all source
 all: $(shell echo $(SOURCE) | sed 's/\.vhd/\.o/g') 
 
-# Clean Rule
+# Clean output artifacts
 clean:
 	rm -f $(TST_DIR)/*.vcd
 	rm -f $(SIM_DIR)/*
