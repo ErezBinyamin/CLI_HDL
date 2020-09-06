@@ -18,14 +18,14 @@ sudo apt install gtkwave
 ```
 git clone https://github.com/ErezBinyamin/MAC_Unit.git
 cd MAC_Unit
-make test4
+make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 ```
 
 ## Test intermediary components
-- N-bit adder: ```make test1```  
-- N-bit Multiplier: ```make test2```  
-- MAC unit: ```make test3```  
-- BIST-MAC ```make test4```  
+- N-bit adder: ```make test TESTBENCH=./tst/Full_Adder_Nbit_TB.vhd```  
+- N-bit Multiplier: ```make test TESTBENCH=./tst/Multiplier_TB.vhd```  
+- MAC unit: ```make test TESTBENCH=./tst/MAC_TB.vhd```  
+- BIST-MAC ```make test TESTBENCH=./tst/BIST_MAC_TB.vhd```  
 
 ## GTK-wave simulation output
 ![output](report/gtkwave_output.png)
