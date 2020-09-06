@@ -31,9 +31,19 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 ![output](report/gtkwave_output.png)
 
 ## Project Structure
-> **work** - contains project components  
+> **work** - contains project components organized in dependency structure
 > > A.vhd  
 > > B.vhd  
+
+
+> > **\[FRUIT_DEPENDENCY\]**  
+> > > apple.vhd  
+> > > grapes.vhd  
+
+
+> > **\[VEGGIE_DEPENDENCY\]**  
+> > > cucumber.vhd  
+> > > corn.vhd  
 
 > **tst** - contains testbenches for each component  
 > > A_TB.vhd  
@@ -41,6 +51,7 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 
 > **out** - contains output artifacts from builds  
 > **report** - contains files needed for final report  
+![example](report/project_structure.png)
 
 ## Build system
 Using `ghdl -s` for syntax checks and `ghdl -a` for compilation, all `.vhd` files are checked/compiled using the first generic target.
