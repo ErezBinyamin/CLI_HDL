@@ -24,20 +24,18 @@ get_port_map() {
 		while read line
 		do
 			SIG=`echo "$line" | cut -d ',' -f 1`
-			[ -z ${IN+x} ] && IN='{' || IN+=' | '
+			[ -z ${IN+x} ] || IN+=' | '
 			IN+=" ${SIG} "
 		done < /tmp/map
-		IN+='}'
 		# Outputs
                 echo "$MAP" | grep ' out ' | tr -d ' ;'  | sed 's/:out/,/' > /tmp/map
 		while read line
 		do
 			SIG=`echo "$line" | cut -d ',' -f 1`
-			[ -z ${OUT+x} ] && OUT='{' || OUT+=' | '
+			[ -z ${OUT+x} ] || OUT+=' | '
 			OUT+=" ${SIG} "
 		done < /tmp/map
-		OUT+='}'
-		printf "\t$ENTITY [shape=record, label=\" ${IN} | ${OUT} \"]\n"
+		printf "\t$ENTITY [shape=record, label=\"{$ENTITY | {{ ${IN} }|{ ${OUT} }}}\"]\n"
 	done
 	printf "}\n"
 }

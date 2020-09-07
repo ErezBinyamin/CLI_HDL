@@ -1,10 +1,13 @@
 # Configurable variables - Can be overridden in enviroment
-SOURCE?=$(shell bash tools/get_dep_list.sh)
-STOP_TIME?=10000ns
+TOOLS=tools
 SIM_DIR?=out
 SRC_DIR?=work
 TST_DIR?=tst
 WRK_DIR=$(SIM_DIR)
+SOURCE?=$(shell bash $(TOOLS)/get_dep_list.sh)
+RTL_SOURCE=$(SIM_DIR)/rtl.dot
+RTL_OUT=$(SIM_DIR)/rtl.png
+STOP_TIME?=10000ns
 GHDL=ghdl
 GHDLFLAGS=--workdir=$(WRK_DIR) --std=02 --ieee=synopsys --warn-unused -fexplicit
 GTK=gtkwave
@@ -25,6 +28,10 @@ test: all $(TESTBENCH:.vhd=.vcd)
 
 # Compile all source
 all: $(shell echo $(SOURCE) | sed 's/\.vhd/\.o/g') 
+
+dot: $(shell bash $(TOOLS)/vhdl_2_dot.sh > $(RTL_SOURCE))
+	dot -Tpng $(RTL_SOURCE) -o $(RTL_OUT)
+	display $(RTL_OUT)
 
 # Clean output artifacts
 clean:
