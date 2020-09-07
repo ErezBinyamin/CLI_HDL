@@ -51,8 +51,7 @@ begin
                 assert unsigned(Sum) = j + i report "FAIL: " &
                                                     integer'image(j) & " + " &
                                                     integer'image(i) & " = " &
-                                                    integer'image(to_integer(unsigned(Sum)))
-                                                    severity failure;
+                                                    integer'image(to_integer(unsigned(Sum)));
             end loop;
 	    end loop;
 
@@ -70,11 +69,11 @@ begin
 	        	wait for CLK_PERIOD;
 	      	    A <= STD_LOGIC_VECTOR(TO_UNSIGNED(j, A'length));
 	        	wait for CLK_PERIOD;
-                assert signed(Sum) = j - i report "FAIL: " &
-                                                    integer'image(i) & " - " &
-                                                    integer'image(j) & " = " &
-                                                    integer'image(to_integer(signed(Sum)))
-                                                    severity failure;
+                assert signed(Sum) = j - i
+                       report "FAIL: " &
+                              integer'image(i) & " - " &
+                              integer'image(j) & " = " &
+                              integer'image(to_integer(signed(Sum)));
 	    	end loop;
 	    end loop;
 

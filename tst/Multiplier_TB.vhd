@@ -60,11 +60,11 @@ begin
 				aa := integer(floor(x * 1024.0));
 				A <= std_logic_vector(to_unsigned(aa, A'length));
 				wait for CLK_PERIOD;
-                assert unsigned(Product) = aa * bb report "FAIL: " &
-                                                    integer'image(aa) & " * " &
-                                                    integer'image(bb) & " = " &
-                                                    integer'image(to_integer(unsigned(Product)))
-                                                    severity failure;
+                assert unsigned(Product) = aa * bb
+                    report "FAIL: " &
+                    integer'image(aa) & " * " &
+                    integer'image(bb) & " = " &
+                    integer'image(to_integer(unsigned(Product)));
 			end loop;
 		end loop;
 

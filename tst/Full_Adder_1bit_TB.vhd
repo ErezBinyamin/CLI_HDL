@@ -59,8 +59,7 @@ begin
                          integer'image(to_integer(unsigned'('0' & A))) & " + " &
                          integer'image(to_integer(unsigned'('0' & B))) & " + " &
                          integer'image(to_integer(unsigned'('0' & Cin))) & " = " &
-                         integer'image(to_integer(unsigned'('0' & Cout & Sum)))
-                         severity error;
+                         integer'image(to_integer(unsigned'('0' & Cout & Sum)));
               end loop;
           end loop;
       end loop;
