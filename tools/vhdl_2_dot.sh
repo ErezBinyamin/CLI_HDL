@@ -12,6 +12,8 @@ get_dep_list() {
 }
 
 get_port_map() {
+	INPUT_COLOR=green
+	OUTPUT_COLOR=red
 	printf 'digraph D {\n'
 	for f in ${DEP_LIST[@]}
 	do
@@ -24,18 +26,23 @@ get_port_map() {
 		while read line
 		do
 			SIG=`echo "$line" | cut -d ',' -f 1`
-			[ -z ${IN+x} ] || IN+=' | '
-			IN+=" ${SIG} "
+			IN+="<tr> <td color=\'${INPUT_COLOR}\' port=\'${SIG}\'>${SIG}</td> </tr>"
 		done < /tmp/map
 		# Outputs
+		NUM_OUT=0
                 echo "$MAP" | grep ' out ' | tr -d ' ;'  | sed 's/:out/,/' > /tmp/map
 		while read line
 		do
 			SIG=`echo "$line" | cut -d ',' -f 1`
-			[ -z ${OUT+x} ] || OUT+=' | '
-			OUT+=" ${SIG} "
+			OUT+="<tr> <td color=\'${OUTPUT_COLOR}\' port=\'${SIG}\'>${SIG}</td> </tr>"
 		done < /tmp/map
-		printf "\t$ENTITY [shape=record, label=\"{$ENTITY | {{ ${IN} }|{ ${OUT} }}}\"]\n"
+		printf "\t$ENTITY [shape=plaintext, label=<
+						<table border='1' cellborder='1'>
+							<tr> <td>$ENTITY</td> </tr>
+							$IN
+							$OUT
+						</table>
+				  >]\n"
 	done
 	printf "}\n"
 }
