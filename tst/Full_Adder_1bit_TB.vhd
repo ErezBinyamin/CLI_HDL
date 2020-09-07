@@ -42,20 +42,34 @@ begin
   stimulus: process
   begin
 
-	  for i in 0 to 8 loop
-		  wait for CLK_PERIOD;
-		  test_vector <= STD_LOGIC_VECTOR(TO_UNSIGNED(i, test_vector'length));
-		  A   <= test_vector(0);
-		  B   <= test_vector(1);
-		  Cin <= test_vector(2);
-		  wait for CLK_PERIOD;
-	  end loop;
+ 	  A   <= '0';
+	  B   <= '0';
+	  Cin <= '0';
+	  wait for CLK_PERIOD;
 
- 	A   <= '0';
-	B   <= '0';
-	Cin <= '0';
-	wait for CLK_PERIOD;
-	wait;
+      for i in std_logic range '0' to '1' loop
+          for j in std_logic range '0' to '1' loop
+              for k in std_logic range '0' to '1' loop
+                  A   <= i; 
+                  B   <= j;
+                  Cin <= k;
+		          wait for CLK_PERIOD;
+                  assert to_integer(unsigned'('0' & A)) + to_integer(unsigned'('0' & B)) + to_integer(unsigned'('0' & Cin)) = to_integer(unsigned'('0' & Cout & Sum))
+                         report "FAIL: " & 
+                         integer'image(to_integer(unsigned'('0' & A))) & " + " &
+                         integer'image(to_integer(unsigned'('0' & B))) & " + " &
+                         integer'image(to_integer(unsigned'('0' & Cin))) & " = " &
+                         integer'image(to_integer(unsigned'('0' & Cout & Sum)))
+                         severity error;
+              end loop;
+          end loop;
+      end loop;
+
+ 	  A   <= '0';
+	  B   <= '0';
+	  Cin <= '0';
+	  wait for CLK_PERIOD;
+      wait;
 end process;
 
 
