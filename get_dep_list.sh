@@ -6,10 +6,7 @@ get_dep_list() {
 	do
 		get_dep_list $d
 	done
-    for f in `ls *.vhd`
-    do
-        DEP_LIST+=(${PWD}/$f)
-    done
+    DEP_LIST+=(`ls ${PWD}/*.vhd`)
 	cd ..
 }
 get_dep_list work
