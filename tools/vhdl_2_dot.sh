@@ -12,27 +12,34 @@ get_dep_list() {
 }
 
 get_port_map() {
+	printf 'digraph D {\n'
 	for f in ${DEP_LIST[@]}
 	do
+		unset IN OUT
 		ENTITY=`basename $f | sed 's/\..*//'`
 		MAP=`grep -A 1000 "entity $ENTITY is" $f | grep -m 1 -B 1000 '    );' | grep ':'`
-		echo '----------'
-		echo $ENTITY
+
                 # Inputs
 		echo "$MAP" | grep ' in '  | tr -d ' ; ' | sed 's/:in/,/'> /tmp/map
 		while read line
 		do
-			printf " --> "
-			echo "$line" | cut -d ',' -f 1
+			SIG=`echo "$line" | cut -d ',' -f 1`
+			[ -z ${IN+x} ] && IN='{' || IN+=' | '
+			IN+=" ${SIG} "
 		done < /tmp/map
+		IN+='}'
 		# Outputs
                 echo "$MAP" | grep ' out ' | tr -d ' ;'  | sed 's/:out/,/' > /tmp/map
 		while read line
 		do
-			printf " <-- "
-			echo "$line" | cut -d ',' -f 1
+			SIG=`echo "$line" | cut -d ',' -f 1`
+			[ -z ${OUT+x} ] && OUT='{' || OUT+=' | '
+			OUT+=" ${SIG} "
 		done < /tmp/map
+		OUT+='}'
+		printf "\t$ENTITY [shape=record, label=\" ${IN} | ${OUT} \"]\n"
 	done
+	printf "}\n"
 }
 
 # -- MAIN --
