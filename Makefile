@@ -26,11 +26,17 @@ test: all $(TESTBENCH:.vhd=.vcd)
 %.vcd: %.o
 	$(GHDL) -r $(GHDLFLAGS) $(*F) --vcd=$@ --stop-time=$(STOP_TIME)
 
-# Compile all source
-all: $(shell echo $(SOURCE) | sed 's/\.vhd/\.o/g') 
+# Compile dotfiles into pngs
+%.png: %.dot
+	dot -Tpng $< -o $@
 
-dot: $(shell bash $(TOOLS)/vhdl_2_dot.sh > $(RTL_SOURCE))
-	dot -Tpng $(RTL_SOURCE) -o $(RTL_OUT)
+# Compile all source
+all: $(shell echo $(SOURCE) | sed 's/\.vhd/\.o/g')
+
+# Generate RTL diagram
+dot_template:
+	$(shell bash $(TOOLS)/vhdl_2_dot.sh > $(RTL_SOURCE))
+dot: $(RTL_OUT)
 	display $(RTL_OUT)
 
 # Clean output artifacts
