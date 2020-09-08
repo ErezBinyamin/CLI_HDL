@@ -15,27 +15,20 @@ entity Multiplier_tb is
 end;
 
 architecture bench of Multiplier_tb is
-	constant N : INTEGER := 16;
-	component Multiplier
-	port
-	(
-		A       :   in   STD_LOGIC_VECTOR(N-1 downto 0);
-		B       :   in   STD_LOGIC_VECTOR(N-1 downto 0);
-		Product :   out  STD_LOGIC_VECTOR(((2*N)-1) downto 0)
-	);
-	end component;
-
-	signal A       : STD_LOGIC_VECTOR(N-1 downto 0);
-	signal B       : STD_LOGIC_VECTOR(N-1 downto 0);
-	signal Product : STD_LOGIC_VECTOR(((2*N)-1) downto 0);
-
-	constant CLK_PERIOD : TIME := 10 ns;
+    constant N : INTEGER := 16;
+    signal A       : STD_LOGIC_VECTOR(N-1 downto 0);
+    signal B       : STD_LOGIC_VECTOR(N-1 downto 0);
+    signal Product : STD_LOGIC_VECTOR(((2*N)-1) downto 0);
+    
+    constant CLK_PERIOD : TIME := 10 ns;
 begin
-    uut: Multiplier
-    --generic map( N => N );
-    port map ( A        => A,
-           B        => B,
-           Product  => Product);
+    uut: entity work.Multiplier
+    generic map( N => N )
+    port map (
+        A        => A,
+        B        => B,
+        Product  => Product
+    );
 
     stimulus: process is
         variable seed1 : positive;
@@ -73,7 +66,5 @@ begin
 	B <= (others => '0');
 	wait for 2*CLK_PERIOD;
   	wait;
-end process;
-
-
+    end process;
 end;
