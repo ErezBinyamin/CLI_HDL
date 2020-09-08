@@ -40,13 +40,16 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 
 <img align="right" src="img/project_structure.png">
 
-> **work** - contains project components/source-code organized in a dependency structure
-> > A.vhd  
-> > B.vhd  
-
 > **tst** - contains testbenches for each component  
 > > A_TB.vhd  
 > > B_TB.vhd  
+> > C_TB.vhd  
+
+> **work** - contains project components/source-code organized in a dependency structure
+> > A.vhd  
+> > B.vhd  
+> > \[dependency\]
+> > > C.vhd
 
 > **out** - contains output artifacts from builds  
 > **tools** - contains build scripts/tools  
