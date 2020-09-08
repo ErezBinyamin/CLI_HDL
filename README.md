@@ -33,7 +33,7 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 ## Auto RTL documentation using [graphviz dot](https://graphviz.gitlab.io/download/)
 - For each file with a corresponding entity declaration, will generate one block diagram with input/output ports  
 - Use ```make dot_template``` to auto-gen a template file in ```out/rtl.dot```  
-- Use ```make dot``` to compile ```out/rtl.dot``` into ```out/rtl.png``` and ```display``` it  
+- Use ```make dot``` to compile ```out/rtl.dot``` into ```out/rtl.png``` and ```xdg-open``` it with your default image viewer   
 ![Example](img/dot.gif)
 
 ---
