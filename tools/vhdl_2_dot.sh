@@ -19,9 +19,8 @@ get_port_map() {
 digraph D {
 	//default
 	rankdir="LR";
-	graph [splines=ortho, nodesep=.01, ranksep=3]
-	edge [arrowhead=none]
-	'
+	graph [nodesep=.01, ranksep=1]
+	edge [arrowhead=none]\n\n'
 	for f in ${DEP_LIST[@]}
 	do
 		unset INPUTS OUTPUTS PORT_MAP
