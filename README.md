@@ -40,26 +40,17 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 
 <img align="right" src="img/project_structure.png">
 
-> **work** - contains project components organized in dependency structure
+> **work** - contains project components/source-code organized in a dependency structure
 > > A.vhd  
 > > B.vhd  
-
-
-> > **\[FRUIT_DEPENDENCY\]**  - some dependency needed to compile A.vhd and B.vhd
-> > > apple.vhd  
-> > > grapes.vhd  
-
-
-> > **\[VEGGIE_DEPENDENCY\]**  - some dependency needed to compile A.vhd and B.vhd
-> > > cucumber.vhd  
-> > > corn.vhd  
 
 > **tst** - contains testbenches for each component  
 > > A_TB.vhd  
 > > B_TB.vhd  
 
 > **out** - contains output artifacts from builds  
-> **report** - contains files needed for final report  
+> **tools** - contains build scripts/tools  
+> **img** - Images/gifs for github readme  
 ---
 
 ## Build system
