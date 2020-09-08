@@ -28,7 +28,7 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 - BIST-MAC ```make test TESTBENCH=./tst/BIST_MAC_TB.vhd```  
 
 ## GTK-wave simulation output
-![output](report/gtkwave_output.png)
+![output](img/gtkwave_output.png)
 
 ---
 ## Auto RTL documentation using [graphviz dot](https://graphviz.gitlab.io/download/)
