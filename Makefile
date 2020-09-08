@@ -42,4 +42,5 @@ dot: $(RTL_OUT)
 # Clean output artifacts
 clean:
 	rm -f $(TST_DIR)/*.vcd
-	rm -f $(SIM_DIR)/*
+	rm -f $(SIM_DIR)/*.png
+	rm -f $(SIM_DIR)/*.cf
