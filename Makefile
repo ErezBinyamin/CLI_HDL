@@ -37,7 +37,7 @@ all: $(shell echo $(SOURCE) | sed 's/\.vhd/\.o/g')
 dot_template:
 	$(shell bash $(TOOLS)/vhdl_2_dot.sh > $(RTL_SOURCE))
 dot: $(RTL_OUT)
-	display $(RTL_OUT)
+	xdg-open $(RTL_OUT)
 
 # Clean output artifacts
 clean:
