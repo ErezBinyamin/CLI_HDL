@@ -31,9 +31,14 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 ![output](report/gtkwave_output.png)
 
 ---
+## Auto RTL documentation using [graphviz dot](https://graphviz.gitlab.io/download/)
+- Use ```make dot_template``` to auto-gen a template file in ```out/rtl.dot```  
+- Use ```make dot``` to compile ```out/rtl.dot``` into ```out/rtl.png``` and ```display``` it  
+[Example](img/dot.gif)
+
 ## Project Structure
 
-<img align="right" src="report/project_structure.png">
+<img align="right" src="img/project_structure.png">
 
 > **work** - contains project components organized in dependency structure
 > > A.vhd  
