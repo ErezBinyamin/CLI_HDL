@@ -21,6 +21,7 @@ test: all $(TESTBENCH:.vhd=.vcd)
 %.o : %.vhd
 	$(GHDL) -s $(GHDLFLAGS) $<
 	$(GHDL) -a $(GHDLFLAGS) $<
+	touch $@
 
 # Run simulation
 %.vcd: %.o
@@ -44,3 +45,4 @@ clean:
 	rm -f $(TST_DIR)/*.vcd
 	rm -f $(SIM_DIR)/*.png
 	rm -f $(SIM_DIR)/*.cf
+	find -type f -name *.o -exec rm -rf {} \;	

@@ -8,5 +8,8 @@
 #GHDL generated GTKWAVE file
 *.vcd
 
+# Object files - empty placeholders
+*.o
+
 # Ignore report direcory
 report/.*
