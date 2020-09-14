@@ -12,8 +12,9 @@ get_dep_list() {
 }
 
 get_port_map() {
-	INPUT_COLOR=green
-	OUTPUT_COLOR=red
+	local INPUT_COLOR=green
+	local OUTPUT_COLOR=red
+	local DEBUG=1
 	printf '
 // https://renenyffenegger.ch/notes/tools/Graphviz/examples/index\n\n
 digraph D {
@@ -27,23 +28,26 @@ digraph D {
 
 		# Parse out entity name (should match filename) and Extract port map
 		ENTITY=`basename $f | sed 's/\..*//'`
-		PORT_MAP=`grep -A 1000 "entity $ENTITY is" $f | grep -m 1 -B 1000 '    );' | grep ':'`
+		PORT_MAP=`grep -iA 1000 "entity $ENTITY is" $f | grep -im 2 -B 1000 "end $ENTITY" | grep -i ':'`
+		[ $DEBUG -eq 1 ] && >&2 echo "[$ENTITY] PMAP: $PORT_MAP"
 
 		# Parse out input/ouput signals to create entity ports
                 # Inputs
-		echo "$PORT_MAP" | grep ' in '  | tr -d ' ; ' | sed 's/:in/,/'> /tmp/map
+		perl -C -Mutf8 -pe 's/:in/,/' <<< `echo "$PORT_MAP" | grep -i ' in '  | tr -d ' ;'` > /tmp/map
 		while read line
 		do
 			SIG=`echo "$line" | cut -d ',' -f 1`
 			INPUTS+="\n\t\t\t\t\t<tr><td port=\'${SIG}\'> ${SIG} </td></tr>"
+			[ $DEBUG -eq 1 ] && >&2 echo "[$ENTITY] +I: $SIG"
 		done < /tmp/map
 		# Outputs
 		NUM_OUT=0
-                echo "$PORT_MAP" | grep ' out ' | tr -d ' ;'  | sed 's/:out/,/' > /tmp/map
+                perl -C -Mutf8 -pe 's/:out/,/' <<< `echo "$PORT_MAP" | grep -i ' out ' | tr -d ' ;'` > /tmp/map
 		while read line
 		do
 			SIG=`echo "$line" | cut -d ',' -f 1`
 			OUTPUTS+="\n\t\t\t\t\t<tr><td port=\'${SIG}\'> ${SIG} </td></tr>"
+			[ $DEBUG -eq 1 ] && >&2 echo "[$ENTITY] +O: $SIG"
 		done < /tmp/map
 
 		# Draw entity node
