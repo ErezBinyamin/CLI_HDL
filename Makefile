@@ -11,7 +11,7 @@ STOP_TIME?=10000ns
 GHDL=ghdl
 GHDLFLAGS=--workdir=$(WRK_DIR) --std=02 --ieee=synopsys --warn-unused -fexplicit
 GTK=gtkwave
-GTKFLAGS=--tcl_init tools/init.tcl
+GTKFLAGS=--tcl_init tools/init.tcl --optimize --slider-zoom --wish
 
 # -- ALL --
 all: $(SOURCE:.vhd=.o)
@@ -43,6 +43,7 @@ rtl: rtl_template $(RTL_OUT)
 # -- CLEAN --
 clean:
 	rm -f $(TST_DIR)/*.vcd
+	rm -f $(TST_DIR)/*.fst
 	rm -f $(SIM_DIR)/*.png
 	rm -f $(SIM_DIR)/*.cf
 	find -type f -name *.o -exec rm -rf {} \;
