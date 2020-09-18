@@ -22,7 +22,7 @@ gtkwave::/Time/Zoom/Zoom_Full
 
 # Show decimal values
 gtkwave::/Edit/Highlight_All
-gtkwave::/Edit/Data_Format/Signed_Decimal
+gtkwave::/Edit/Data_Format/Decimal
 gtkwave::/Edit/UnHighlight_All
 
 # Beautification - View settings
