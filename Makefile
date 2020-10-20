@@ -3,6 +3,7 @@ TOOLS=tools
 OUT_DIR?=out
 SRC_DIR?=work
 TST_DIR?=tst
+TESTBENCH?=$(shell ls -1 $(TST_DIR)/*.vhd | head -1)
 SOURCE?=$(shell bash $(TOOLS)/get_dep_list.sh)
 RTL_SRC=$(OUT_DIR)/rtl.dot
 RTL_OUT=$(OUT_DIR)/rtl.png
