@@ -1,5 +1,5 @@
-# MAC_Unit
-Intro to GHDL with a basic Multiply and Accumulate with Build in Self Test (BIST)
+# CLI_HDL
+Intro to GHDL command line enviroment with a few basic VHDL structures to use as templates.
 
 ## Prerequisite packages install script
 ```
