@@ -33,7 +33,7 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 -----------------------------------------------------------
 -- *                     MAC UNIT                      * -- 
 -----------------------------------------------------------
--- *         A                   B            N-1      * --   
+-- *        [A]                 [B]           N-1      * --   
 -- *         |                   |                     * --                      
 -- *        +---------------------+                    * --    
 -- *         \      Multiply     /                     * --  
@@ -41,19 +41,15 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 -- *                   |                               * --     
 -- *                 Product                (2*N)-1    * --   
 -- *                   |_______                        * --          
--- *    ________               |                       * --         
+-- *    Accumulator            |                       * --         
 -- *    |      |               |                       * --            
 -- *    |   +---------------------+                    * --            
 -- *    |    \       Add         /                     * --            
 -- *    |     +-----------------+                      * --                  
 -- *    |              |                               * --            
--- *    |             Sum                    2N-1      * --         
--- *    |              |                               * --                
--- *    |    +---------------------+                   * --               
--- *    +----|       RegMem        |         2N-1      * --              
--- *         +---------------------+                   * --            
+-- *    +------------ Sum                    2N-1      * --         
 -- *                   |                               * --             
--- *                 MacOut                  2N-1      * --               
+-- *                [MacOut]                 2N-1      * --               
 -----------------------------------------------------------
 
 
@@ -70,11 +66,10 @@ entity MAC is
 end MAC;
 
 architecture Structural of MAC is
-	signal Product : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal Adder_B : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal RegMem  : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal Sum     : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
-	signal Cout    : STD_LOGIC                            := '0';
+	signal Product     : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal Accumulator : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal Sum         : STD_LOGIC_VECTOR(((2*n)-1) downto 0) := (others => '0');
+	signal Cout        : STD_LOGIC                            := '0';
 
 begin
 	-- Multiply A and B
@@ -93,24 +88,22 @@ begin
 	 port map
 	 (
 	     A    =>    Product,
-	     B    =>    Adder_B,
+	     B    =>    Accumulator,
 	     Cin  =>    '0',
 	     Sum  =>    Sum,
 	     Cout =>    Cout
 	 );
 
 	-- Output RegMem
-	process(clk, RegMem, Sum)
+	process(clk)
 	begin
 		if(clk'event and clk = '1')
 		then
 			if(rst = '0')
 			then
-				Adder_B <= RegMem;
-				RegMem  <= Sum;
+				Accumulator <= Sum;
 			else
-				Adder_B <= (others => '0');
-				RegMem  <= (others => '0');
+				Accumulator <= (others => '0');
 			end if;
 
 			mac_out <= Sum;

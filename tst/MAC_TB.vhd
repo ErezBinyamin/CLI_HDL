@@ -76,7 +76,6 @@ begin
 				y := integer(floor(x * 1024.0));
 				A <= std_logic_vector(to_unsigned(y, A'length));
 				wait until clk='1';
-				wait for CLK_PERIOD;
 			end loop;
 		end loop;
 	
