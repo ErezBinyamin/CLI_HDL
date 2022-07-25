@@ -28,7 +28,7 @@ make test TESTBENCH=./tst/BIST_MAC_TB.vhd
 - BIST-MAC ```make test TESTBENCH=./tst/BIST_MAC_TB.vhd```  
 
 ## GTK-wave simulation output
-![output](img/gtkwave_output.png)
+![output](img/MAC.png)
 
 ## Auto RTL documentation using [graphviz dot](https://graphviz.gitlab.io/download/)
 - For each file with a corresponding entity declaration, will generate one block diagram with input/output ports  
