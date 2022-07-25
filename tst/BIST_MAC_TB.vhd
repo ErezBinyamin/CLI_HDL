@@ -54,72 +54,12 @@ begin
 
 	-- Put test bench stimulus code here
 	stimulus: process is
-		variable seed1 : positive;
-		variable seed2 : positive;
-		variable x : real;
-		variable y : integer;
 	begin
-		seed1 := 1;
-		seed2 := 1;
-	
 		-- Reset
 		wait for CLK_PERIOD;
 		A <= (others => '0');
 		B <= (others => '0');
 		tst_mode <= '0';
-		rst <= '1';
-		wait for CLK_PERIOD;
-		rst <= '0';
-		wait for CLK_PERIOD;
-
-		-- Generate random numbers loop
-		-- for i in 0 to 15 loop
-		-- 	uniform(seed1, seed2, x);
-		-- 	y := integer(floor(x * 1024.0));
-		-- 	B <= std_logic_vector(to_unsigned(y, B'length));
-		-- 	for j in 0 to 15 loop
-		-- 		uniform(seed1, seed2, x);
-		-- 		y := integer(floor(x * 1024.0));
-		-- 		A <= std_logic_vector(to_unsigned(y, A'length));
-		-- 		wait until clk='1';
-		-- 		wait for CLK_PERIOD;
-		-- 	end loop;
-		-- end loop;
-
-		-- Test questionalble input combinations
-		A <= (others => '0');
-		B <= (others => '0');
-		A(((n/2) -1) downto 0) <= (others => '1');
-	        B(((n/2) -1) downto 0) <= (others => '1');
-		wait until clk='1';
-		wait for CLK_PERIOD;
-
-		A <= (others => '0');
-		B <= (others => '0');
-		A((n-1) downto (n/2)) <= (others => '1');
-	        B((n-1) downto (n/2)) <= (others => '1');
-		wait until clk='1';
-		wait for CLK_PERIOD;
-
-		A <= (others => '0');
-		B <= (others => '0');
-		A(((n/2) -1) downto 0) <= (others => '1');
-	        B((n-1) downto (n/2)) <= (others => '1');
-		wait until clk='1';
-		wait for CLK_PERIOD;
-
-		A <= (others => '0');
-		B <= (others => '0');
-	        A((n-1) downto (n/2)) <= (others => '1');
-		B(((n/2) -1) downto 0) <= (others => '1');
-		wait until clk='1';
-		wait for CLK_PERIOD;
-
-
-		-- Reset
-		wait for CLK_PERIOD;
-		A <= (others => '0');
-		B <= (others => '0');
 		rst <= '1';
 		wait for CLK_PERIOD;
 		rst <= '0';
@@ -139,6 +79,4 @@ begin
 		wait for CLK_PERIOD;
 	    wait;
 	end process;
-
-
 end;
