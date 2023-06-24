@@ -24,6 +24,9 @@ all: $(SOURCE:.vhd=.o)
 
 # -- TEST --
 test: all $(TESTBENCH:.vhd=.vcd)
+	@printf "===========================================\n"
+	@printf "Testing using envar TESTBENCH: ${TESTBENCH}\n"
+	@printf "===========================================\n"
 	$(GTK) $(GTKFLAGS) $(TESTBENCH:.vhd=.vcd)
 
 # Run simulation
